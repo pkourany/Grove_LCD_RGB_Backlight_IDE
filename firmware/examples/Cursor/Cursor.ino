@@ -30,7 +30,7 @@
 #include <Wire.h>
 #endif
 
-#include "Grove_LCD_RGB_Backlight.h"
+#include "Grove_LCD_RGB_Backlight/Grove_LCD_RGB_Backlight.h"
 
 rgb_lcd lcd;
 
