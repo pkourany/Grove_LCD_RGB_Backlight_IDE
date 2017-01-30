@@ -1,9 +1,9 @@
 /*
-  fade.ino
+  Display.ino
   2013 Copyright (c) Seeed Technology Inc.  All right reserved.
 
   Author:Loovee
-  2013-10-15
+  2013-9-18
 
   !!! Adapted for Spark Core by Paul Kourany, Dec 26, 2014 !!!
 
@@ -24,49 +24,30 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-#if defined (SPARK)
+#if defined (PARTICLE)
 // Nothing to include if Spark
 #else
 #include <Wire.h>
 #endif
 
-#include "Grove_LCD_RGB_Backlight/Grove_LCD_RGB_Backlight.h"
+#include "Grove_LCD_RGB_Backlight.h"
 
 rgb_lcd lcd;
 
-void setup() 
-{
+void setup() {
     // set up the LCD's number of columns and rows:
     lcd.begin(16, 2);
     // Print a message to the LCD.
-    lcd.print("fade demo");
-
+    lcd.print("hello, world!");
 }
 
-void breath(unsigned char color)
-{
-
-    for(int i=0; i<255; i++)
-    {
-        lcd.setPWM(color, i);
-        delay(5);
-    }
-
+void loop() {
+    // Turn off the display:
+    lcd.noDisplay();
     delay(500);
-    for(int i=254; i>=0; i--)
-    {
-        lcd.setPWM(color, i);
-        delay(5);
-    }
-
+    // Turn on the display:
+    lcd.display();
     delay(500);
-}
-
-void loop() 
-{
-    breath(REG_RED);
-    breath(REG_GREEN);
-    breath(REG_BLUE);
 }
 
 /*********************************************************************************************************

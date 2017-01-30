@@ -1,9 +1,9 @@
 /*
-  Cursor.ino
+  fade.ino
   2013 Copyright (c) Seeed Technology Inc.  All right reserved.
 
   Author:Loovee
-  2013-9-18
+  2013-10-15
 
   !!! Adapted for Spark Core by Paul Kourany, Dec 26, 2014 !!!
 
@@ -24,31 +24,49 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-#if defined (SPARK)
+#if defined (PARTICLE)
 // Nothing to include if Spark
 #else
 #include <Wire.h>
 #endif
 
-#include "Grove_LCD_RGB_Backlight/Grove_LCD_RGB_Backlight.h"
+#include "Grove_LCD_RGB_Backlight.h"
 
 rgb_lcd lcd;
 
-void setup()
+void setup() 
 {
     // set up the LCD's number of columns and rows:
     lcd.begin(16, 2);
     // Print a message to the LCD.
-    lcd.print("hello, world!");
+    lcd.print("fade demo");
+
 }
 
-void loop() {
-    // Turn off the cursor:
-    lcd.noCursor();
+void breath(unsigned char color)
+{
+
+    for(int i=0; i<255; i++)
+    {
+        lcd.setPWM(color, i);
+        delay(5);
+    }
+
     delay(500);
-    // Turn on the cursor:
-    lcd.cursor();
+    for(int i=254; i>=0; i--)
+    {
+        lcd.setPWM(color, i);
+        delay(5);
+    }
+
     delay(500);
+}
+
+void loop() 
+{
+    breath(REG_RED);
+    breath(REG_GREEN);
+    breath(REG_BLUE);
 }
 
 /*********************************************************************************************************

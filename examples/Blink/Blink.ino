@@ -1,5 +1,5 @@
 /*
-  TextDirection.ino
+  Blink.ino
   2013 Copyright (c) Seeed Technology Inc.  All right reserved.
 
   Author:Loovee
@@ -24,54 +24,36 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-#if defined (SPARK)
+#if defined (PARTICLE)
 // Nothing to include if Spark
 #else
 #include <Wire.h>
 #endif
 
-#include "Grove_LCD_RGB_Backlight/Grove_LCD_RGB_Backlight.h"
+#include "Grove_LCD_RGB_Backlight.h"
 
 rgb_lcd lcd;
 
-int thisChar = 'a';
 
 void setup() 
 {
     // set up the LCD's number of columns and rows:
     lcd.begin(16, 2);
-    // turn on the cursor:
-    lcd.cursor();
+
+    // Print a message to the LCD.
+    lcd.print("hello, world!");
+    
+    delay(1000);
 }
 
 void loop() 
 {
-    // reverse directions at 'm':
-    if (thisChar == 'm') 
-    {
-        // go right for the next letter
-        lcd.rightToLeft();
-    }
-    // reverse again at 's':
-    if (thisChar == 's') 
-    {
-        // go left for the next letter
-        lcd.leftToRight();
-    }
-    // reset at 'z':
-    if (thisChar > 'z')
-    {
-        // go to (0,0):
-        lcd.home();
-        // start again at 0
-        thisChar = 'a';
-    }
-    // print the character
-    lcd.write(thisChar);
-    // wait a second:
-    delay(1000);
-    // increment the letter:
-    thisChar++;
+    // Turn off the blinking cursor:
+    lcd.noBlink();
+    delay(3000);
+    // Turn on the blinking cursor:
+    lcd.blink();
+    delay(3000);
 }
 
 /*********************************************************************************************************

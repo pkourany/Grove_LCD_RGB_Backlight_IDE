@@ -1,5 +1,5 @@
 /*
-  Blink.ino
+  Hello World.ino
   2013 Copyright (c) Seeed Technology Inc.  All right reserved.
 
   Author:Loovee
@@ -24,36 +24,42 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-#if defined (SPARK)
+#if defined (PARTICLE)
 // Nothing to include if Spark
 #else
 #include <Wire.h>
 #endif
 
-#include "Grove_LCD_RGB_Backlight/Grove_LCD_RGB_Backlight.h"
+#include "Grove_LCD_RGB_Backlight.h"
 
 rgb_lcd lcd;
 
+const int colorR = 255;
+const int colorG = 0;
+const int colorB = 0;
 
 void setup() 
 {
     // set up the LCD's number of columns and rows:
     lcd.begin(16, 2);
-
+    
+    lcd.setRGB(colorR, colorG, colorB);
+    
     // Print a message to the LCD.
     lcd.print("hello, world!");
-    
+
     delay(1000);
 }
 
 void loop() 
 {
-    // Turn off the blinking cursor:
-    lcd.noBlink();
-    delay(3000);
-    // Turn on the blinking cursor:
-    lcd.blink();
-    delay(3000);
+    // set the cursor to column 0, line 1
+    // (note: line 1 is the second row, since counting begins with 0):
+    lcd.setCursor(0, 1);
+    // print the number of seconds since reset:
+    lcd.print(millis()/1000);
+
+    delay(100);
 }
 
 /*********************************************************************************************************

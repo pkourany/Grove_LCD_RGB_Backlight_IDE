@@ -24,13 +24,13 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-#if defined (SPARK)
+#if defined (PARTICLE)
 // Nothing to include if Spark
 #else
 #include <Wire.h>
 #endif
 
-#include "Grove_LCD_RGB_Backlight/Grove_LCD_RGB_Backlight.h"
+#include "Grove_LCD_RGB_Backlight.h"
 
 rgb_lcd lcd;
 

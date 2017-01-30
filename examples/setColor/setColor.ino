@@ -1,14 +1,19 @@
 /*
-  Display.ino
+  setColor.ino
   2013 Copyright (c) Seeed Technology Inc.  All right reserved.
 
   Author:Loovee
-  2013-9-18
+  2013-10-15
 
   !!! Adapted for Spark Core by Paul Kourany, Dec 26, 2014 !!!
 
   Grove - Serial LCD RGB Backlight demo.
+  you can set color by serial input, input "rrr ggg bbb"
 
+  rrr means red, 0-255, eg: 005, 015, 135
+  ggg means green
+  bbb means blue
+  
   This library is free software; you can redistribute it and/or
   modify it under the terms of the GNU Lesser General Public
   License as published by the Free Software Foundation; either
@@ -24,30 +29,58 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-#if defined (SPARK)
+#if defined (PARTICLE)
 // Nothing to include if Spark
 #else
 #include <Wire.h>
 #endif
 
-#include "Grove_LCD_RGB_Backlight/Grove_LCD_RGB_Backlight.h"
+#include "Grove_LCD_RGB_Backlight.h"
 
 rgb_lcd lcd;
 
-void setup() {
+char dtaUart[15];
+char dtaLen = 0;
+
+void setup() 
+{
+    Serial.begin(115200);
     // set up the LCD's number of columns and rows:
     lcd.begin(16, 2);
     // Print a message to the LCD.
-    lcd.print("hello, world!");
+    lcd.print("set cllor");
 }
 
-void loop() {
-    // Turn off the display:
-    lcd.noDisplay();
-    delay(500);
-    // Turn on the display:
-    lcd.display();
-    delay(500);
+void loop() 
+{
+    serialEvent();
+
+    if(dtaLen == 11)
+    {
+        int r = (dtaUart[0]-'0')*100 + (dtaUart[1] - '0')*10 + (dtaUart[2] - '0');          // get r
+        int g = (dtaUart[4]-'0')*100 + (dtaUart[5] - '0')*10 + (dtaUart[6] - '0');
+        int b = (dtaUart[8]-'0')*100 + (dtaUart[9] - '0')*10 + (dtaUart[10] - '0');
+        
+        dtaLen = 0;
+        
+        lcd.setRGB(r, g, b);
+
+        Serial.println("get data");
+        
+        Serial.println(r);
+        Serial.println(g);
+        Serial.println(b);
+        Serial.println();
+
+    }
+}
+
+void serialEvent()
+{
+    while(Serial.available())
+    {
+        dtaUart[dtaLen++] = Serial.read();
+    }
 }
 
 /*********************************************************************************************************

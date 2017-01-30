@@ -62,9 +62,12 @@ You can clear the display by this function:
 <br>
 For more information, please refer to [wiki page](http://www.seeedstudio.com/wiki/Grove_-_LCD_RGB_Backlight).
 
-Spark Core
+Particle Devices
 ----------
 Adapted for Spark Core by Paul Kourany, Dec 26, 2014
+- Compatible with all Particle devices
+
+Updated to Libraries 2.0, Jan 29, 2017
 
  
 ----

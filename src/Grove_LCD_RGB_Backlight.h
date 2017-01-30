@@ -28,8 +28,8 @@
 #ifndef __RGB_LCD_H__
 #define __RGB_LCD_H__
 
-#if defined (SPARK)
-#include "application.h"
+#if defined (PARTICLE)
+#include "Particle.h"
 #else
 #include <inttypes.h>
 #include "Print.h"

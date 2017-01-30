@@ -1,5 +1,5 @@
 /*
-  SerialDisplay.ino
+  TextDirection.ino
   2013 Copyright (c) Seeed Technology Inc.  All right reserved.
 
   Author:Loovee
@@ -24,39 +24,54 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-#if defined (SPARK)
+#if defined (PARTICLE)
 // Nothing to include if Spark
 #else
 #include <Wire.h>
 #endif
 
-#include "Grove_LCD_RGB_Backlight/Grove_LCD_RGB_Backlight.h"
+#include "Grove_LCD_RGB_Backlight.h"
 
 rgb_lcd lcd;
 
-void setup(){
+int thisChar = 'a';
+
+void setup() 
+{
     // set up the LCD's number of columns and rows:
     lcd.begin(16, 2);
-    // initialize the serial communications:
-    Serial.begin(9600);
+    // turn on the cursor:
+    lcd.cursor();
 }
 
-void loop()
+void loop() 
 {
-    // when characters arrive over the serial port...
-    if (Serial.available()) 
+    // reverse directions at 'm':
+    if (thisChar == 'm') 
     {
-        // wait a bit for the entire message to arrive
-        delay(100);
-        // clear the screen
-        lcd.clear();
-        // read all the available characters
-        while (Serial.available() > 0) 
-        {
-            // display each character to the LCD
-            lcd.write(Serial.read());
-        }
+        // go right for the next letter
+        lcd.rightToLeft();
     }
+    // reverse again at 's':
+    if (thisChar == 's') 
+    {
+        // go left for the next letter
+        lcd.leftToRight();
+    }
+    // reset at 'z':
+    if (thisChar > 'z')
+    {
+        // go to (0,0):
+        lcd.home();
+        // start again at 0
+        thisChar = 'a';
+    }
+    // print the character
+    lcd.write(thisChar);
+    // wait a second:
+    delay(1000);
+    // increment the letter:
+    thisChar++;
 }
 
 /*********************************************************************************************************
